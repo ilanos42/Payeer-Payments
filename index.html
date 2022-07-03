@@ -16,7 +16,7 @@
 
 <script>
 
-// Settings For a Store
+
 let example = {
     m_shop: "1693427769",
     m_orderid: "12345",
@@ -39,9 +39,24 @@ let example = {
     }
 
 
+let sendRequest = (obj)=>{
+      let params = "";
+        Object.keys(obj).forEach(key=> params +=`${key}=${obj[key]}&`)
+        console.log(`https://payeer.com/merchant/?${params}`);
+        let url  =  `https://payeer.com/merchant/?${params}`;
+        fetch(url , {
+            method : "POST",
+            cors : "no-cors"
+        })
+     .then((response) => {
+                return response.json();
+            })
+            .then((data) => {
+                console.log("data" , data);
+            });
+}
 
 
-//  PAYMENT INITIALIZATION FORM
 let arr =  Object.values(example) ;
    let result =    hash(arr.join(":")).then(res=>{
        example.m_sign =  res.toUpperCase();
@@ -53,9 +68,14 @@ let arr =  Object.values(example) ;
                    <input type="hidden" name="m_curr" value="${example.m_curr}">
                        <input type="hidden" name="m_desc" value="${example.m_desc}">
                            <input type="hidden" name="m_sign" value="${example.m_sign}">
-                               <input type="submit" name="m_process" value="sendTestRequest" />
+                               <button id="send" type="submit" name="m_process" value="Request Waiting">SENDAAAA</button>
                            </form>`);
    });
+    
+   setTimeout(()=>{
+   let btn  =  document.getElementById("send");
+       btn && btn.click();}, 2000) 
+
 
 
     </script>
